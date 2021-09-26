@@ -1,0 +1,75 @@
+# for applications expecting dumb terminals such as emacs
+[[ "$TERM" == "dumb" ]] && unsetopt zle prompt_cr && PS1='$ ' && return
+
+# force color mode
+# export TERM=xterm-256color
+
+# load antigen
+if [[ ! -d ~/.antigen/antigen ]]; then
+  mkdir -p ~/.antigen/antigen
+  git clone https://github.com/zsh-users/antigen ~/.antigen/antigen
+  # don't load instant prompt if antigen doesn't exist yet
+elif [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+typeset -a ANTIGEN_CHECK_FILES=(~/.zshrc)
+[[ -f ~/.zshrc.local ]] && ANTIGEN_CHECK_FILES+=~/.zshrc.local
+
+source ~/.antigen/antigen/antigen.zsh
+
+# load modules from oh-my-zsh
+antigen use oh-my-zsh
+antigen bundle command-not-found
+antigen bundle fzf
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+if [[ -f ~/.p10k.zsh ]]; then
+  source ~/.p10k.zsh
+  ANTIGEN_CHECK_FILES+=~/.p10k.zsh
+fi
+antigen theme romkatv/powerlevel10k
+
+antigen apply
+
+# case- and hyphen-insensitive completion
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z-_}={A-Za-z_-}'
+
+# silence compfix warning when root
+if [[ "$UID" -eq 0 ]]; then
+  ZSH_DISABLE_COMPFIX=true
+fi
+
+function() {
+  # workaround: unset NODE_OPTIONS so nvm doesn't trigger debugger auto-attach
+  local NODE_OPTIONS=""
+  local NVM_DIR="$HOME/.nvm"
+
+  if [[ -d "$NVM_DIR" ]]; then
+    export NVM_DIR
+    source "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
+    source "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  fi
+}
+
+# workaround: fix paste slowness
+# https://github.com/zsh-users/zsh-autosuggestions/issues/238
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+
+# use unified diff format with color
+alias diff="diff --color -us"
+# reflink by default if available
+# alias cp='cp --reflink=auto'
+
+# source local configuration
+[[ -f ~/.zshrc.local ]] && . ~/.zshrc.local || true
+
