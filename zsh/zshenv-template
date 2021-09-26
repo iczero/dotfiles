@@ -1,0 +1,4 @@
+# stuff that is common, but not necessarily universal
+export EDITOR="nvim"
+export LIBVIRT_DEFAULT_URI="qemu:///system"
+export PATH="$HOME/bin:$HOME/.local/bin/:$HOME/.cargo/bin:$PATH:$HOME/.node_modules/.bin:/snap/bin"

@@ -1,0 +1,8 @@
+# partial list of packages that are useful
+zsh
+fzf
+neovim
+nodejs
+python3
+tmux
+
