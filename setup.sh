@@ -19,4 +19,5 @@ function make-link() {
 make-link ~/.config/nvim neovim
 make-link ~/.zshrc zsh/zshrc
 make-link ~/.p10k.zsh zsh/p10k.zsh
+make-link ~/.tmux.conf tmux.conf
 
