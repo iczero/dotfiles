@@ -46,3 +46,10 @@ hi Normal guibg=None ctermbg=None
 hi NonText guibg=None ctermbg=None
 hi Pmenu guibg=#1C1C1C ctermbg=234
 
+" misc keybindings
+" use tab/shift-tab to navigate completions
+inoremap <expr> <Tab> pumvisible() ? "\<Down>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<Up>" : "\<S-Tab>"
+" refresh completion candidates
+inoremap <silent><expr> <c-space> coc#refresh()
+
