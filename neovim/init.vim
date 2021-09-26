@@ -53,3 +53,8 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<Up>" : "\<S-Tab>"
 " refresh completion candidates
 inoremap <silent><expr> <c-space> coc#refresh()
 
+" load local configuration if exists
+if filereadable(stdpath('config') . '/local.vim')
+    exe 'source' stdpath('config') . '/local.vim'
+endif
+
