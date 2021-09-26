@@ -29,6 +29,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dikiaap/minimalist'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " language server plugins
@@ -45,6 +46,8 @@ let g:airline#extensions#tabline#enabled = 1
 hi Normal guibg=None ctermbg=None
 hi NonText guibg=None ctermbg=None
 hi Pmenu guibg=#1C1C1C ctermbg=234
+hi diffAdded guifg=green ctermfg=green
+hi diffRemoved guifg=red ctermfg=red
 
 " misc keybindings
 " use tab/shift-tab to navigate completions
