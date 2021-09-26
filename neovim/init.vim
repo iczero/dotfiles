@@ -30,6 +30,8 @@ Plug 'dikiaap/minimalist'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " language server plugins
@@ -54,7 +56,10 @@ hi diffRemoved guifg=red ctermfg=red
 inoremap <expr> <Tab> pumvisible() ? "\<Down>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<Up>" : "\<S-Tab>"
 " refresh completion candidates
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <C-space> coc#refresh()
+" use ctrl-p to bring up fzf
+" git ls-files is significantly faster than find
+noremap <C-p> :GFiles<cr>
 
 " load local configuration if exists
 if filereadable(stdpath('config') . '/local.vim')
