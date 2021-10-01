@@ -9,6 +9,7 @@ set ruler
 set showcmd
 set mouse=a
 set modeline
+set hidden
 
 filetype plugin indent on
 
