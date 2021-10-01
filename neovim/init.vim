@@ -42,7 +42,11 @@ autocmd VimEnter * call coc#add_extension('coc-json', 'coc-tsserver',
 set t_Co=256
 colorscheme minimalist
 let g:airline_theme = 'minimalist'
+
+" other option customizations
 let g:airline#extensions#tabline#enabled = 1
+" less false positives for mixed-indent
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
 
 " color customizations
 hi Normal guibg=None ctermbg=None
