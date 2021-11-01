@@ -20,7 +20,7 @@ autocmd FileType html setlocal shiftwidth=2 tabstop=2
 " automatically install vim-plug
 let data_dir = stdpath('data') . '/site'
 if empty(glob(data_dir . '/autoload/plug.vim'))
-    execute '!curl -fLo ' . data_dir . '/autoload/plug.vim --create-dirs ' .
+    execute '!curl -vfLo ' . data_dir . '/autoload/plug.vim --create-dirs ' .
                 \ 'https://github.com/junegunn/vim-plug/raw/master/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -33,6 +33,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'tpope/vim-sleuth'
 call plug#end()
 
 " language server plugins
