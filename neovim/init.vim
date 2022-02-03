@@ -35,6 +35,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-markdown'
 call plug#end()
 
 " language server plugins
