@@ -58,6 +58,7 @@ hi NonText guibg=None ctermbg=None
 hi Pmenu guibg=#1C1C1C ctermbg=234
 hi diffAdded guifg=green ctermfg=green
 hi diffRemoved guifg=red ctermfg=red
+hi Comment ctermfg=245
 
 " misc keybindings
 " use tab/shift-tab to navigate completions
