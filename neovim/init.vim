@@ -10,6 +10,7 @@ set showcmd
 set mouse=a
 set modeline
 set hidden
+set updatetime=500
 
 filetype plugin indent on
 
@@ -58,17 +59,33 @@ hi NonText guibg=None ctermbg=None
 hi Pmenu guibg=#1C1C1C ctermbg=234
 hi diffAdded guifg=green ctermfg=green
 hi diffRemoved guifg=red ctermfg=red
-hi Comment ctermfg=245
+hi Comment guifg=#808080 ctermfg=245
+hi CocHighlightText guibg=#268ab5 ctermbg=24
 
-" misc keybindings
-" use tab/shift-tab to navigate completions
-inoremap <expr> <Tab> pumvisible() ? "\<Down>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<Up>" : "\<S-Tab>"
-" refresh completion candidates
+" keybindings
+" trigger completion
 inoremap <silent><expr> <C-space> coc#refresh()
 " use ctrl-p for fzf
 noremap <C-p> :Buffers<cr>
 noremap <C-M-p> :GFiles<cr>
+" goto
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" rename
+nmap <leader>rn <Plug>(coc-rename)
+
+" coc highlight
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" show documentation
+function! s:show_documentation()
+    if (coc#rpc#ready())
+        call CocActionAsync('doHover')
+    endif
+endfunction
+noremap <silent> K :call <SID>show_documentation()<CR>
 
 " load local configuration if exists
 if filereadable(stdpath('config') . '/local.vim')
