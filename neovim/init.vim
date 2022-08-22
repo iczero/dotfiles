@@ -23,6 +23,7 @@ let data_dir = stdpath('data') . '/site'
 if empty(glob(data_dir . '/autoload/plug.vim'))
     execute '!curl -vfLo ' . data_dir . '/autoload/plug.vim --create-dirs ' .
                 \ 'https://github.com/junegunn/vim-plug/raw/master/plug.vim'
+    execute 'source ' . data_dir . '/autoload/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 " load plugins
