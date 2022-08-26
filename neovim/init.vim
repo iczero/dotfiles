@@ -42,7 +42,7 @@ call plug#end()
 
 " language server plugins
 autocmd VimEnter * call coc#add_extension('coc-json', 'coc-tsserver',
-            \ 'coc-pyright', 'coc-sh', 'coc-rust-analyzer')
+            \ 'coc-pyright', 'coc-sh', 'coc-rust-analyzer', 'coc-clangd')
 
 " color scheme
 set t_Co=256
