@@ -66,6 +66,9 @@ hi CocHighlightText guibg=#268ab5 ctermbg=24
 " keybindings
 " trigger completion
 inoremap <silent><expr> <C-space> coc#refresh()
+" tab to accept completion
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#confirm() : "\<Tab>"
 " use ctrl-p for fzf
 noremap <C-p> :Buffers<cr>
 noremap <C-M-p> :GFiles<cr>
