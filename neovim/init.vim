@@ -55,8 +55,8 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#mixed_indent_algo = 1
 
 " color customizations
-hi Normal guibg=None ctermbg=None
-hi NonText guibg=None ctermbg=None
+hi Normal guibg=NONE ctermbg=NONE
+hi NonText guibg=NONE ctermbg=NONE
 hi Pmenu guibg=#1C1C1C ctermbg=234
 hi diffAdded guifg=green ctermfg=green
 hi diffRemoved guifg=red ctermfg=red
