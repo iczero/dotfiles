@@ -60,7 +60,7 @@ require('lazy').setup({
   {
     'ms-jpq/coq_nvim',
     branch = 'coq',
-    build = 'COQdeps',
+    build = ':COQdeps',
     config = function()
       vim.g.coq_settings = {
         xdg = true,
@@ -83,8 +83,7 @@ require('lazy').setup({
     config = function()
       require('nvim-treesitter.configs').setup({
         ensure_installed = {
-          'c', 'lua', 'vim', 'vimdoc', 'javascript', 'python',
-          'rust', 'markdown',
+          'c', 'lua', 'vimdoc', 'javascript', 'python', 'rust',
         },
         auto_install = true,
         highlight = {
@@ -142,3 +141,6 @@ require('lazy').setup({
 
 -- theme configuration
 vim.cmd('colorscheme tokyonight')
+
+-- keybinds
+vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float, { noremap = true })
