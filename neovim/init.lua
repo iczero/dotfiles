@@ -8,10 +8,15 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- options before plugin init
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 vim.o.number = true
+vim.o.signcolumn = 'auto:1-3'
 vim.o.expandtab = true
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
@@ -47,14 +52,27 @@ require('lazy').setup({
         component_separators = { left = '\u{00b7}', right = '\u{00b7}' },
       },
       tabline = {
-        lualine_a = {'buffers'},
+        lualine_a = { 'buffers' },
       },
-      extensions = {'toggleterm'},
+      extensions = { 'toggleterm', 'nvim-tree' },
     },
   },
   {
     'nvim-telescope/telescope.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' }
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local actions = require('telescope.actions')
+      require('telescope').setup({
+        defaults = {
+          mappings = {
+            i = {
+              -- single Esc to close
+              ['<Esc>'] = actions.close
+            },
+          },
+        },
+      })
+    end,
   },
   { 'akinsho/toggleterm.nvim', config = true },
   {
@@ -137,10 +155,45 @@ require('lazy').setup({
       })
     end
   },
+  {
+    'nvim-tree/nvim-tree.lua',
+    opts = {
+      filters = { dotfiles = true },
+      renderer = {
+        icons = {
+          show = {
+            file = false,
+            folder = false,
+            folder_arrow = false,
+            git = true,
+            modified = true,
+            diagnostics = false,
+            bookmarks = true,
+          },
+        },
+      },
+    }
+  },
+  {
+    'folke/which-key.nvim',
+    event = 'VeryLazy',
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {},
+  }
 })
 
 -- theme configuration
 vim.cmd('colorscheme tokyonight')
 
 -- keybinds
-vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float, { noremap = true })
+local wk = require('which-key')
+wk.register({
+  name = 'Leader',
+  e = { vim.diagnostic.open_float, 'Show current error' },
+}, { mode = 'n', prefix = '<Leader>' })
+
+local telescope_builtin = require('telescope.builtin')
+vim.keymap.set('n', '<C-p>', telescope_builtin.buffers, { noremap = true })
