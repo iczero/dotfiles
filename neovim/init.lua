@@ -199,6 +199,7 @@ require('lazy').setup({
     opts = {
       -- manually configured below
       map_cr = false,
+      map_bs = false,
     },
   },
 })
@@ -242,13 +243,13 @@ local function insert_handle_cr()
     return autopairs.autopairs_cr()
   end
 end
-vim.keymap.set('i', '<CR>', insert_handle_cr, { noremap = true, expr = true })
+vim.keymap.set('i', '<CR>', insert_handle_cr, { noremap = true, expr = true, replace_keycodes = false })
 
 local function insert_handle_bs()
   if vim.fn.pumvisible() == 1 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
-    return autopairs.esc('<C-e>') .. '<BS>'
+    return autopairs.esc('<C-e>') .. autopairs.autopairs_bs()
   else
-    return '<BS>'
+    return autopairs.autopairs_bs()
   end
 end
-vim.keymap.set('i', '<BS>', insert_handle_bs, { noremap = true, expr = true })
+vim.keymap.set('i', '<BS>', insert_handle_bs, { noremap = true, expr = true, replace_keycodes = false })
