@@ -32,7 +32,7 @@ vim.o.hidden = true
 vim.g.neovide_cursor_animation_length = 0.01
 vim.g.neovide_scroll_animation_length = 0
 
-if vim.fn.has('macunix') then
+if vim.fn.has('macunix') == 1 then
   -- neovide on macos seems to disagree with font sizing
   vim.o.guifont = 'Source Code Pro:h16'
 else
