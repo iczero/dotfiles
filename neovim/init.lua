@@ -31,7 +31,13 @@ vim.o.hidden = true
 -- neovide settings
 vim.g.neovide_cursor_animation_length = 0.01
 vim.g.neovide_scroll_animation_length = 0
-vim.o.guifont = 'Source Code Pro:h12'
+
+if vim.fn.has('macunix') then
+  -- neovide on macos seems to disagree with font sizing
+  vim.o.guifont = 'Source Code Pro:h16'
+else
+  vim.o.guifont = 'Source Code Pro:h12'
+end
 
 -- plugin init
 require('lazy').setup({
@@ -83,6 +89,10 @@ require('lazy').setup({
       vim.g.coq_settings = {
         xdg = true,
         ['display.icons.mode'] = 'none',
+        keymap = {
+          -- configured manually
+          recommended = false,
+        },
       }
       --[[
       require('coq_3p')({
@@ -182,7 +192,15 @@ require('lazy').setup({
       vim.o.timeoutlen = 300
     end,
     opts = {},
-  }
+  },
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    opts = {
+      -- manually configured below
+      map_cr = false,
+    },
+  },
 })
 
 -- theme configuration
@@ -193,7 +211,44 @@ local wk = require('which-key')
 wk.register({
   name = 'Leader',
   e = { vim.diagnostic.open_float, 'Show current error' },
+  f = {
+    name = 'file',
+    t = { require('nvim-tree.api').tree.toggle, 'Toggle file tree' },
+  },
+  s = {
+    name = 'select',
+    a = { 'ggVG', 'Select all' },
+  },
 }, { mode = 'n', prefix = '<Leader>' })
 
 local telescope_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<C-p>', telescope_builtin.buffers, { noremap = true })
+
+-- coq_nvim mappings
+vim.keymap.set('i', '<Esc>', function() return vim.fn.pumvisible() == 1 and '<C-e><Esc>' or '<Esc>' end, { noremap = true, expr = true })
+vim.keymap.set('i', '<C-c>', function() return vim.fn.pumvisible() == 1 and '<C-e><C-c>' or '<C-c>' end, { noremap = true, expr = true })
+vim.keymap.set('i', '<Tab>', function() return vim.fn.pumvisible() == 1 and '<C-n>' or '<Tab>' end, { noremap = true, expr = true })
+vim.keymap.set('i', '<S-Tab>', function() return vim.fn.pumvisible() == 1 and '<C-p>' or '<C-o><<' end, { noremap = true, expr = true })
+
+local autopairs = require('nvim-autopairs')
+local function insert_handle_cr()
+  if vim.fn.pumvisible() == 1 then
+    if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
+      return autopairs.esc('<C-y>')
+    else
+      return autopairs.esc('<C-e>') .. autopairs.autopairs_cr()
+    end
+  else
+    return autopairs.autopairs_cr()
+  end
+end
+vim.keymap.set('i', '<CR>', insert_handle_cr, { noremap = true, expr = true })
+
+local function insert_handle_bs()
+  if vim.fn.pumvisible() == 1 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
+    return autopairs.esc('<C-e>') .. '<BS>'
+  else
+    return '<BS>'
+  end
+end
+vim.keymap.set('i', '<BS>', insert_handle_bs, { noremap = true, expr = true })
