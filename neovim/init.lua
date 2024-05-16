@@ -27,6 +27,7 @@ vim.o.mouse = 'a'
 vim.o.modeline = true
 vim.o.updatetime = 500
 vim.o.hidden = true
+vim.o.cursorline = true
 
 -- neovide settings
 vim.g.neovide_cursor_animation_length = 0.01
@@ -202,6 +203,21 @@ require('lazy').setup({
       map_bs = false,
     },
   },
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
+    opts = {},
+  },
+  {
+    'ggandor/leap.nvim',
+    config = function()
+      require('leap').create_default_mappings()
+    end,
+  }
 })
 
 -- theme configuration
