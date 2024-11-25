@@ -145,7 +145,7 @@ require('lazy').setup({
       lsp_setup('rust_analyzer')
       lsp_setup('clangd')
       lsp_setup('pyright')
-      lsp_setup('tsserver')
+      lsp_setup('ts_ls')
       lsp_setup('lua_ls', {
         on_init = function(client)
           -- TODO: don't load neovim libraries if not in neovim
@@ -225,18 +225,15 @@ vim.cmd('colorscheme tokyonight')
 
 -- keybinds
 local wk = require('which-key')
-wk.register({
-  name = 'Leader',
-  e = { vim.diagnostic.open_float, 'Show current error' },
-  f = {
-    name = 'file',
-    t = { require('nvim-tree.api').tree.toggle, 'Toggle file tree' },
-  },
-  s = {
-    name = 'select',
-    a = { 'ggVG', 'Select all' },
-  },
-}, { mode = 'n', prefix = '<Leader>' })
+wk.add({
+  mode = 'n',
+  { '<Leader>', group = 'Leader' },
+  { '<Leader>e', vim.diagnostic.open_float, desc = 'Show current error' },
+  { '<Leader>f', group = 'file' },
+  { '<Leader>ft', require('nvim-tree.api').tree.toggle, desc = 'Toggle file tree' },
+  { '<Leader>s', group = 'select' },
+  { '<Leader>sa', 'ggVG', desc = 'Select all' },
+})
 
 local telescope_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<C-p>', telescope_builtin.buffers, { noremap = true })
