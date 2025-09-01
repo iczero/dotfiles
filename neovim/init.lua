@@ -217,7 +217,17 @@ require('lazy').setup({
     config = function()
       require('leap').create_default_mappings()
     end,
-  }
+  },
+  {
+    'windwp/nvim-ts-autotag',
+    opts = {
+      opts = {
+        enable_close = true,
+        enable_rename = true,
+        enable_close_on_slash = false,
+      },
+    },
+  },
 })
 
 -- theme configuration
@@ -233,6 +243,11 @@ wk.add({
   { '<Leader>ft', require('nvim-tree.api').tree.toggle, desc = 'Toggle file tree' },
   { '<Leader>s', group = 'select' },
   { '<Leader>sa', 'ggVG', desc = 'Select all' },
+  { '<Leader>tt', require('toggleterm').toggle, desc = 'Activate ToggleTerm' },
+})
+wk.add({
+  mode = 't',
+  { '<C-Space>', '<C-\\><C-n>', desc = 'Exit terminal mode' },
 })
 
 local telescope_builtin = require('telescope.builtin')
