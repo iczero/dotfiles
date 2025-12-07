@@ -136,11 +136,10 @@ require('lazy').setup({
       'williamboman/mason-lspconfig.nvim'
     },
     config = function()
-      local lspc = require('lspconfig')
       local coq = require('coq')
 
       local function lsp_setup(name, opts)
-        lspc[name].setup(coq.lsp_ensure_capabilities(opts or {}))
+        vim.lsp.enable(name, coq.lsp_ensure_capabilities(opts or {}))
       end
       lsp_setup('rust_analyzer')
       lsp_setup('clangd')
@@ -212,12 +211,7 @@ require('lazy').setup({
     },
     opts = {},
   },
-  {
-    'ggandor/leap.nvim',
-    config = function()
-      require('leap').create_default_mappings()
-    end,
-  },
+  { 'ggandor/leap.nvim' },
   {
     'windwp/nvim-ts-autotag',
     opts = {
