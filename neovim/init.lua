@@ -83,30 +83,6 @@ require('lazy').setup({
   },
   { 'akinsho/toggleterm.nvim', config = true },
   {
-    'ms-jpq/coq_nvim',
-    branch = 'coq',
-    build = ':COQdeps',
-    config = function()
-      vim.g.coq_settings = {
-        xdg = true,
-        ['display.icons.mode'] = 'none',
-        keymap = {
-          -- configured manually
-          recommended = false,
-        },
-      }
-      --[[
-      require('coq_3p')({
-        { src = 'nvimlua', short_name = 'nLUA', conf_only = true },
-      })
-      ]]
-      require('coq').Now('--shut-up')
-    end,
-    dependencies = { 'ms-jpq/coq.artifacts', 'ms-jpq/coq.thirdparty' },
-  },
-  { 'ms-jpq/coq.artifacts', branch = 'artifacts' },
-  { 'ms-jpq/coq.thirdparty', branch = '3p' },
-  {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     config = function()
@@ -136,10 +112,8 @@ require('lazy').setup({
       'williamboman/mason-lspconfig.nvim'
     },
     config = function()
-      local coq = require('coq')
-
       local function lsp_setup(name, opts)
-        vim.lsp.enable(name, coq.lsp_ensure_capabilities(opts or {}))
+        vim.lsp.enable(name, opts)
       end
       lsp_setup('rust_analyzer')
       lsp_setup('clangd')
@@ -246,12 +220,6 @@ wk.add({
 
 local telescope_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<C-p>', telescope_builtin.buffers, { noremap = true })
-
--- coq_nvim mappings
-vim.keymap.set('i', '<Esc>', function() return vim.fn.pumvisible() == 1 and '<C-e><Esc>' or '<Esc>' end, { noremap = true, expr = true })
-vim.keymap.set('i', '<C-c>', function() return vim.fn.pumvisible() == 1 and '<C-e><C-c>' or '<C-c>' end, { noremap = true, expr = true })
-vim.keymap.set('i', '<Tab>', function() return vim.fn.pumvisible() == 1 and '<C-n>' or '<Tab>' end, { noremap = true, expr = true })
-vim.keymap.set('i', '<S-Tab>', function() return vim.fn.pumvisible() == 1 and '<C-p>' or '<C-o><<' end, { noremap = true, expr = true })
 
 local autopairs = require('nvim-autopairs')
 local function insert_handle_cr()
