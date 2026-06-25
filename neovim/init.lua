@@ -91,8 +91,7 @@ require('lazy').setup({
       concurrency = 1,
     },
   },
-  { 'tpope/vim-fugitive' },
-  { 'tpope/vim-sleuth' },
+  { 'nmac427/guess-indent.nvim', config = true },
   { 'williamboman/mason.nvim', config = true },
   { 'williamboman/mason-lspconfig.nvim', config = true },
   {
@@ -169,10 +168,12 @@ require('lazy').setup({
   {
     'NeogitOrg/neogit',
     dependencies = {
-      'nvim-lua/plenary.nvim',
       'sindrets/diffview.nvim',
       'nvim-telescope/telescope.nvim',
+      'm00qek/baleia.nvim',
     },
+    lazy = true,
+    cmd = 'Neogit',
     opts = {},
   },
   { 'https://codeberg.org/andyg/leap.nvim' },
@@ -205,7 +206,6 @@ vim.cmd('colorscheme tokyonight')
 local wk = require('which-key')
 wk.add({
   mode = 'n',
-  { 'S', '<Plug>(leap-from-window)' },
   { '<Leader>', group = 'Leader' },
   { '<Leader>e', vim.diagnostic.open_float, desc = 'Show current error' },
   { '<Leader>f', group = 'file' },
@@ -213,21 +213,48 @@ wk.add({
   { '<Leader>s', group = 'select' },
   { '<Leader>sa', 'ggVG', desc = 'Select all' },
   { '<Leader>tt', require('toggleterm').toggle, desc = 'Activate ToggleTerm' },
+  { '<Leader>gg', '<cmd>Neogit<cr>', desc = 'Open Neogit UI' },
+  { '<C-p>', require('telescope.builtin').buffers, desc = 'Open buffers switcher' },
+
+  -- to be entirely honest i have no idea what this does
+  -- { 'S', '<Plug>(leap-from-window)', desc = 'Trigger leap against sibling window?' },
 })
 wk.add({
   mode = 'nxo',
-  { 's', '<Plug>(leap)' },
+  { 's', '<Plug>(leap)', desc = 'Trigger leap' },
 })
 wk.add({
   mode = 't',
   { '<C-Space>', '<C-\\><C-n>', desc = 'Exit terminal mode' },
-  { '<Leader>fp', '<Cmd>enew<CR>"+P', desc = 'New buffer from system clipboard' },
-  { '<Leader>fy', 'ggVG"+y', desc = 'Yank buffer to system clipboard' },
 })
 
-local telescope_builtin = require('telescope.builtin')
-vim.keymap.set('n', '<C-p>', telescope_builtin.buffers, { noremap = true })
+if vim.fn.has('macunix') == 1 then
+  wk.add({
+    mode = 'v',
+    { '<D-c>', '"+y', desc = 'Copy to system clipboard' },
+    { '<D-x>', '"+d', desc = 'Cut to system clipboard' },
+  })
+  wk.add({
+    mode = 'i',
+    { '<D-v>', '<C-o>"+p', desc = 'Paste from system clipboard' },
+  })
+else
+  wk.add({
+    mode = 'v',
+    { '<C-S-c>', '"+y', desc = 'Copy to system clipboard' },
+    { '<C-S-x>', '"+d', desc = 'Cut to system clipboard' },
+  })
+  wk.add({
+    mode = 'i',
+    { '<C-S-v>', '<C-o>"+p', desc = 'Paste from system clipboard' },
+  })
+end
 
+-- command aliases
+vim.keymap.set('ca', 'Git', 'Neogit')
+vim.keymap.set('ca', 'git', 'Neogit')
+
+-- autopairs related keybinds
 local autopairs = require('nvim-autopairs')
 local function insert_handle_cr()
   if vim.fn.pumvisible() == 1 then
