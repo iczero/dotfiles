@@ -83,21 +83,13 @@ require('lazy').setup({
   },
   { 'akinsho/toggleterm.nvim', config = true },
   {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    config = function()
-      require('nvim-treesitter.configs').setup({
-        ensure_installed = { 'lua', 'vimdoc' },
-        auto_install = true,
-        highlight = {
-          enable = true,
-        },
-        indent = {
-          -- fix some indent issues (such as with python)
-          enable = true,
-        },
-      })
-    end
+    'arborist-ts/arborist.nvim',
+    config = true,
+    opts = {
+      update_cadence = 'weekly',
+      install_popular = false,
+      concurrency = 1,
+    },
   },
   { 'tpope/vim-fugitive' },
   { 'tpope/vim-sleuth' },
