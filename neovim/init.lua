@@ -15,6 +15,8 @@ vim.g.loaded_netrwPlugin = 1
 -- options before plugin init
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
+-- always dark theme
+vim.o.background = 'dark'
 vim.o.number = true
 vim.o.signcolumn = 'yes:1'
 vim.o.expandtab = true
