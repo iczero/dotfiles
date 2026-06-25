@@ -87,9 +87,7 @@ require('lazy').setup({
     build = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = {
-          'c', 'lua', 'vimdoc', 'javascript', 'python', 'rust',
-        },
+        ensure_installed = { 'lua', 'vimdoc' },
         auto_install = true,
         highlight = {
           enable = true,
@@ -185,7 +183,7 @@ require('lazy').setup({
     },
     opts = {},
   },
-  { 'ggandor/leap.nvim' },
+  { 'https://codeberg.org/andyg/leap.nvim' },
   {
     'windwp/nvim-ts-autotag',
     opts = {
@@ -216,6 +214,8 @@ wk.add({
 wk.add({
   mode = 't',
   { '<C-Space>', '<C-\\><C-n>', desc = 'Exit terminal mode' },
+  { '<Leader>fp', '<Cmd>enew<CR>"+P', desc = 'New buffer from system clipboard' },
+  { '<Leader>fy', 'ggVG"+y', desc = 'Yank buffer to system clipboard' },
 })
 
 local telescope_builtin = require('telescope.builtin')
