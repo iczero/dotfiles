@@ -253,8 +253,17 @@ else
 end
 
 -- command aliases
-vim.keymap.set('ca', 'Git', 'Neogit')
-vim.keymap.set('ca', 'git', 'Neogit')
+local function alias_command(from_cmd, to_cmd)
+  local target_pos = #from_cmd + 1
+  vim.keymap.set('ca', from_cmd, function()
+    if vim.fn.getcmdpos() == target_pos and vim.fn.getcmdtype() == ':' then
+      return to_cmd
+    else
+      return from_cmd
+    end
+  end, { expr = true })
+end
+alias_command('git', 'Neogit')
 
 -- autopairs related keybinds
 local autopairs = require('nvim-autopairs')
