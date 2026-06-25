@@ -192,6 +192,8 @@ require('lazy').setup({
     build = function() require('blink.cmp').build():pwait() end,
     opts = {
       keymap = { preset = 'super-tab' },
+      -- prefer rust if available
+      fuzzy = { implementation = 'prefer_rust' },
     },
   },
 })
