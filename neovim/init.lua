@@ -16,7 +16,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 vim.o.number = true
-vim.o.signcolumn = 'auto:1-3'
+vim.o.signcolumn = 'yes:1'
 vim.o.expandtab = true
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
@@ -195,6 +195,7 @@ vim.cmd('colorscheme tokyonight')
 local wk = require('which-key')
 wk.add({
   mode = 'n',
+  { 'S', '<Plug>(leap-from-window)' },
   { '<Leader>', group = 'Leader' },
   { '<Leader>e', vim.diagnostic.open_float, desc = 'Show current error' },
   { '<Leader>f', group = 'file' },
@@ -202,6 +203,10 @@ wk.add({
   { '<Leader>s', group = 'select' },
   { '<Leader>sa', 'ggVG', desc = 'Select all' },
   { '<Leader>tt', require('toggleterm').toggle, desc = 'Activate ToggleTerm' },
+})
+wk.add({
+  mode = 'nxo',
+  { 's', '<Plug>(leap)' },
 })
 wk.add({
   mode = 't',
