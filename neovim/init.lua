@@ -91,6 +91,8 @@ require('lazy').setup({
       update_cadence = 'weekly',
       install_popular = false,
       concurrency = 1,
+      -- conf is broken somehow
+      ignore = { 'conf' },
     },
   },
   { 'nmac427/guess-indent.nvim', config = true },
